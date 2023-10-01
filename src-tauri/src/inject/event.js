@@ -12,10 +12,9 @@ const shortcuts = {
 
 function setZoom(zoom) {
   const html = document.getElementsByTagName('html')[0];
-  html.style.zoom = zoom;
-  window.localStorage.setItem('htmlZoom', zoom);
+  html.style.zoom = '1';
+  window.localStorage.setItem('htmlZoom', '1');
 }
-
 function zoomCommon(zoomChange) {
   const currentZoom = window.localStorage.getItem('htmlZoom') || '100%';
   setZoom(zoomChange(currentZoom));
@@ -75,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
   domEl.addEventListener('touchstart', () => {
     appWindow.startDragging().then();
   });
-
+  
   domEl.addEventListener('mousedown', (e) => {
     e.preventDefault();
     if (e.buttons === 1 && e.detail !== 2) {
@@ -97,7 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
       handleShortcut(event);
     }
   });
-
+  // 禁止右键菜单
+  document.addEventListener('contextmenu', (event) => {
+  event.preventDefault();
+  });
   // Collect blob urls to blob by overriding window.URL.createObjectURL
   function collectUrlToBlobs() {
     const backupCreateObjectURL = window.URL.createObjectURL;
